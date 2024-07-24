@@ -3,7 +3,7 @@ from tkinter.constants import *
 from tkinter import ttk
 import webbrowser
 import os
-from openpyxl import load_workbook,worksheet
+import openpyxl
 
 
 
@@ -17,8 +17,12 @@ label = tk.Label(window,
                   fg='blue')
 label.pack(side='top', padx=20, pady=20)
 
-wb = load_workbook("帳號(不可刪除).csv")
-ws = wb.active
+f = open('帳號密碼.txt')
+line = f.readline().replace('\n',"") #去掉換行
+line2 = f.readline().replace('\n',"") #去掉換行
+f.close()
+
+
 
 
 
@@ -113,12 +117,20 @@ def send_sign():
     announcement_tittle.place(x=900,y=700)
 
 
-
 def get():
     get_a = text2.get("0.0","end")
-    if get_a == ws["A3"].value:
+    get_p = text1.get("0.0","end")
+    get_ar = get_a.replace('\n',"")
+    get_pr = get_p.replace('\n',"")
+    if line == get_ar:
         check1 = "o"
-        print(check1)
+    
+    if line2 == get_pr:
+        check2 = "k"
+
+    if check1+check2 == "ok":
+        sign_in.configure(command=send_sign)
+    
 
 
 
@@ -141,7 +153,7 @@ sign_clean.place(x=1360,y=970)
 label_main_t = tk.Label(text="歡迎回來!",bg="gray",font=("Arial",30,"bold"),fg="white")
 quit_pages.lift()
 
-tool_select = ttk.Combobox(window,values=['計算機','放大鏡','開啟google',"開啟學校網頁"],height=9)
+tool_select = ttk.Combobox(window,values=['計算機','放大鏡','開啟google',"開啟學校網頁","開發人員"],height=9)
 
 def open_tools():
     if tool_select.get() == "計算機":    
@@ -156,6 +168,9 @@ def open_tools():
     if tool_select.get() == "開啟學校網頁":
         ex_url = "https://www.tcjhs.tyc.edu.tw/"
         webbrowser.open(ex_url)
+    if tool_select.get() == "開發人員":
+        wr_url = "https://docs.google.com/document/d/1DMvGFlXtLo3I0Tu0Pu3nxEP0WJoEOm04Pq-QIwBEnJY/edit?usp=sharing"
+        webbrowser.open(wr_url)
 
 def send_s():
     s_url = "https://docs.google.com/document/d/1iaTy4pIi7C2g1Da6nnfQqbg-dnPgOqX32QE3Njkz8gQ/edit"
@@ -168,20 +183,24 @@ tool_select_t = tk.Label(text="小小工具",bg="gray",fg="black",font=("Arial",
 
 object_t = tk.Label(text="登記科目",bg="gray",fg="black",font=("Arial",13,"bold"),padx=2,pady=55)
 
-object_ch = tk.Button(text="國文",fg="black",font=("Arial",10,"bold"),width=10)
-object_en = tk.Button(text="英文",fg="black",font=("Arial",10,"bold"),width=10)
-object_ma = tk.Button(text="數學",fg="black",font=("Arial",10,"bold"),width=10)
-object_gr = tk.Button(text="地理",fg="black",font=("Arial",10,"bold"),width=10)
-object_hi = tk.Button(text="歷史",fg="black",font=("Arial",10,"bold"),width=10)
-object_ci = tk.Button(text="公民",fg="black",font=("Arial",10,"bold"),width=10)
-object_bi =tk.Button(text="生物",fg="black",font=("Arial",10,"bold"),width=10)
-object_PhCh = tk.Button(text="理化",fg="black",font=("Arial",10,"bold"),width=10)
-object_ge = tk.Button(text="地科",fg="black",font=("Arial",10,"bold"),width=10)
-object_PE = tk.Button(text="健體",fg="black",font=("Arial",10,"bold"),width=10)
-object_art = tk.Button(text="藝文",fg="black",font=("Arial",10,"bold"),width=10)
+def end():
+    end_url = "https://docs.google.com/document/d/1s87vgDs08BeP-LfvbpFgZaEzawzI_Jwx6uJbUI5FvfU/edit"
+    webbrowser.open(end_url)
+
+object_ch = tk.Button(text="🅧",fg="black",font=("Arial",10,"bold"),width=10,command=None)
+object_en = tk.Button(text="🅧",fg="black",font=("Arial",10,"bold"),width=10,command=None)
+object_ma = tk.Button(text="🅧",fg="black",font=("Arial",10,"bold"),width=10,command=None)
+object_gr = tk.Button(text="🅧",fg="black",font=("Arial",10,"bold"),width=10,command=None)
+object_hi = tk.Button(text="🅧",fg="black",font=("Arial",10,"bold"),width=10,command=None)
+object_ci = tk.Button(text="🅧",fg="black",font=("Arial",10,"bold"),width=10,command=None)
+object_bi =tk.Button(text="🅧",fg="black",font=("Arial",10,"bold"),width=10,command=None)
+object_PhCh = tk.Button(text="理化",fg="black",font=("Arial",10,"bold"),width=10,command=end)
+object_ge = tk.Button(text="🅧",fg="black",font=("Arial",10,"bold"),width=10,command=None)
+object_PE = tk.Button(text="🅧",fg="black",font=("Arial",10,"bold"),width=10,command=None)
+object_art = tk.Button(text="🅧",fg="black",font=("Arial",10,"bold"),width=10,command=None)
 
 
-scrollbar_frame = tk.Frame(window,height=20,width=100)
+scrollbar_frame = tk.Frame(window,height=16,width=61)
 announcement = tk.Scrollbar(scrollbar_frame)
 
 announcement_text = tk.StringVar()
@@ -192,6 +211,7 @@ listbox.pack(side='left', fill='y')    # 設定 Listbox 的位置以及填滿方
 announcement.config(command = listbox.yview)
 
 announcement_tittle = tk.Label(text="lasdaksdk",font=("Arial",30,"bold"))
+
 
 window.mainloop()
 
